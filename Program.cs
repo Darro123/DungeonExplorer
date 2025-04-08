@@ -16,18 +16,19 @@ namespace DungeonExplorer
 
             // Initialize the game
             Game game = new Game();
-           
-
-
-
-            // End of program
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
+          
         }
 
         public static void ClearConsole()
         {
             Console.Clear();
+        }
+
+        public static void EndProgram() 
+        {
+            // End of program
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

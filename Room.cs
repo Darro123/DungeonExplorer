@@ -40,21 +40,28 @@ namespace DungeonExplorer
 
             //Console.WriteLine(roomItems);
             Console.WriteLine(roomDescription);
-            
-            // Attempt to end program after room loop, currently ends in an error
-            
-            //if (currentRoom <4) 
+
+            return roomDescription;
+
+
+            //if (currentRoom <= 4) 
             //{
             //    Program.ClearConsole();
-            //    Console.WriteLine("This is were the program ends, for now...");
-            //    return null;
+            //   Console.WriteLine("This is were the program ends, for now...");
+            //    Program.EndProgram();
+            //    return "";
             //}
             //else
             //{
+            //    currentRoom++;
+            //    string roomDescription = RoomDescriptions[currentRoom];
+
+
+            //    //Console.WriteLine(roomItems);
+            //    Console.WriteLine(roomDescription);
+
             //    return roomDescription;
             //}
-
-            return roomDescription;
 
         }
 
