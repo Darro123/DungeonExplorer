@@ -8,14 +8,27 @@ namespace DungeonExplorer
 {
     internal class Program
     {
+        private Testing testingClass;
+        public static Game game;
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Dungeon Explorer! Press any button to begin.");
+            Console.WriteLine("Welcome to Dungeon Explorer! Press any button to begin or, press T to open the testing menu.");
             Console.WriteLine("");
-            Console.ReadKey();
 
-            // Initialize the game
-            Game game = new Game();
+            var inputKey = Console.ReadKey().Key;
+          
+            if (inputKey == ConsoleKey.T)
+            {
+                Testing.testingDebug();          
+            }
+            else 
+            {
+                // Initialize the game
+
+                game = new Game();
+            }
+
           
         }
 
@@ -24,11 +37,6 @@ namespace DungeonExplorer
             Console.Clear();
         }
 
-        public static void EndProgram() 
-        {
-            // End of program
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
-        }
+
     }
 }

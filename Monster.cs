@@ -10,8 +10,22 @@ namespace DungeonExplorer
 
 
 {
-    internal class Monster
+    class Monster : Creature
     {
+        public static string Name { get; private set; }
+        public static int Health { get; private set; }
 
+        public Monster(string name, int health)
+        {
+            Name = name;
+            Health = health;
+        }
+
+
+        public override void Attack()
+        {
+                Console.WriteLine("Monster attack successful");
+                
+        }
     }
 }

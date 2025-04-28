@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace DungeonExplorer
 {
-    public class Room
+    class Room
     {
         public static int currentRoom = -1;
+        public static Game game;
             
 
         private readonly string _room1Description = "You enter a room dark and slightly damp. Cool air rushes in from behind you pushing life and energy into this otherwise desolet hole. 1 other entrance spans off into the dark and in the center is a small collection of scrap left here you assume when the mine was left to rot";
@@ -44,17 +45,18 @@ namespace DungeonExplorer
             return roomDescription;
 
 
-            //if (currentRoom <= 4) 
+            //if (currentRoom <= 4)
             //{
             //    Program.ClearConsole();
-            //   Console.WriteLine("This is were the program ends, for now...");
-            //    Program.EndProgram();
+            //    Console.WriteLine("This is were the program ends, for now...");
+            //    game.EndProgram();
             //    return "";
             //}
-            //else
+            //else if(currentRoom >= 4)
             //{
             //    currentRoom++;
             //    string roomDescription = RoomDescriptions[currentRoom];
+            //    game.PlayerInput();
 
 
             //    //Console.WriteLine(roomItems);

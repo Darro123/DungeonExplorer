@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    //Items class will manage the items in the game, including adding and removing items
-    internal class Items
+    abstract class Creature
     {
-
+        public abstract void Attack();
     }
 }

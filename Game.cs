@@ -4,18 +4,18 @@ using System.Collections.Generic;
 
 namespace DungeonExplorer
 {
-    internal class Game
+    class Game
     {
-        private Player player;
-        private Room currentRoom;
+        public static Player player;
         public Room room = new Room();
+        private Inventory inventory = new Inventory();
+        private Combat combat;
         // bool playing = false;
 
         public Game()
         {
             var playerName = Player.GetPlayerName();
-            // var playerInventory = Player.InventoryContents();
-            // validate player name
+
 
             player = new Player(playerName, 100);
             Start();
@@ -28,7 +28,7 @@ namespace DungeonExplorer
 
             Program.ClearConsole();
 
-            Console.WriteLine("You, " +Player.Name+ " begin your adventure facing down an a dark open mineshaft. A cool breeze washes over you as you try to peer into the darkness. It was an exhausting 3 day hike here and you're not turning back now. You take a deep breath and step into the darkness.");
+            Console.WriteLine("You, " + Player.Name + " begin your adventure facing down an a dark open mineshaft. A cool breeze washes over you as you try to peer into the darkness. It was an exhausting 3 day hike here and you're not turning back now. You take a deep breath and step into the darkness.");
             Console.WriteLine("Press any key to continue...\n");
 
             Console.ReadKey();
@@ -44,9 +44,12 @@ namespace DungeonExplorer
                 string roomDescription = room.GetDescription();
                 PlayerInput();
             }
+        }
+            
+            
 
 
-            void PlayerInput()
+            public void PlayerInput()
             {
                 Console.WriteLine("What do you wish to do?.");
                 Console.WriteLine(Player.Health + " health points.");
@@ -71,7 +74,7 @@ namespace DungeonExplorer
                     if (roomItems.Contains(inputItem.ToLower()))
                     {
                         Console.WriteLine($"You have picked up {inputItem}");
-                        player.PickUpItem(inputItem);
+                        inventory.PickUpItem(inputItem);
                     }
 
                     PlayerInput();
@@ -80,7 +83,7 @@ namespace DungeonExplorer
                 else if (playerKey == ConsoleKey.I)
                 {
                     // Write the player's inventory
-                    Player.InventoryContents();
+                    Inventory.InventoryContents();
 
                     // Console.WriteLine(player.InventoryContents());
                     PlayerInput();
@@ -102,36 +105,17 @@ namespace DungeonExplorer
                     Console.WriteLine("Press (F) to move to the next room");
                     PlayerInput();
                 }
+                else if (playerKey == ConsoleKey.A) 
+                {
+                    combat = new Combat();
+                }
                 else
                 {
                     Console.WriteLine("Invalid input. Please try again.");
                     PlayerInput();
                 }
             }
-
-
-
-
-
-            // Change the playing logic into true and populate the while loop
-            while (playing)
-            {
-                //var InventoryCheck = player.InventoryContents();
-                //if (Console.ReadKey().Key == ConsoleKey.I) 
-                //{ 
-                //    Console.WriteLine("You check your inventory...");
-                //    Console.WriteLine("");
-                //    Console.WriteLine(InventoryCheck);
-                //}
-
-                //else if (Console.ReadKey().Key == ConsoleKey.Q)
-                //{
-                //    Console.WriteLine("Press (C) to check the room for items");
-                //    Console.WriteLine("Press (I) to check your inventory");
-                //    Console.WriteLine("Press (F) to move to the next room");
-                //    Console.WriteLine("Press (S) to move to the other next room");
-                //}
-            }
-        }
+            
+        
     }
 }

@@ -10,9 +10,6 @@ namespace DungeonExplorer
     //Manages the game map, including rooms and their connections to other parts of the dungeon
     internal class Gamemap
     {
-        //static string MoveRoom() 
-        //{
-        //    Console.Write("valueless");
-        //}
+
     }
 }

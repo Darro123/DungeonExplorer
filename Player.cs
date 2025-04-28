@@ -1,39 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
 {
-    public class Player
+     class Player : Creature
     {
         public static string Name { get; private set; }
-        public static int Health { get; private set; }
+        public static int Health { get; set; }
+        public static Combat combat;
         
-        public static List<string> inventory = new List<string>();
-       // public var playerInventory = InventoryContents();
+        public Random randomD10 = new Random();
+        public int DamageDealt = 0;
+        public bool attacked = false;
+
+        // public var playerInventory = InventoryContents();
 
         public Player(string name, int health) 
         {
             Name = name;
             Health = health;
 
-            inventory.Add("30ft of rope");
-            inventory.Add("candle");
+            combat = new Combat();
         }
-        public void PickUpItem(string item)
-        {
-            inventory.Add(item);
-        }
-        public static void InventoryContents()
-        {
-            Console.WriteLine($"You have the following items in your inventory: {string.Join(", ", inventory)}");
-            Console.WriteLine("Write the item name to equip...");
 
-            var inputInv = Console.ReadLine();
+        public override void Attack()
+        {
+            DamageDealt = randomD10.Next(1, 11);
+            
+            int monsterHealthRemaining = combat.DamageMonster(DamageDealt);
 
-            if (inventory.Contains(inputInv.ToLower()))
+            if (attacked == false)
             {
-                Console.WriteLine($"You have equipped {inputInv}");
+
+                Program.ClearConsole();
+                Console.WriteLine($"You dealt {DamageDealt} Damage!"); // returns random integers >= 1 and < 10
+                Console.WriteLine($"The Enemy has {monsterHealthRemaining} health left!");
+                attacked = true;
             }
+
+            else if (attacked == true)
+            {
+
+                Console.WriteLine($"You dealt {DamageDealt} Damage!");
+                Console.WriteLine(monsterHealthRemaining);
+            }
+
 
         }
 
@@ -42,7 +54,7 @@ namespace DungeonExplorer
             Console.WriteLine("");
             Console.WriteLine("Please enter your name: ");
             var inputName = Console.ReadLine();
-            
+
             if (string.IsNullOrWhiteSpace(inputName))
             {
                 Console.WriteLine("");
@@ -53,9 +65,14 @@ namespace DungeonExplorer
             {
                 return inputName;
             }
-           
 
         }
 
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
+
+   
 }
