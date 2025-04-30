@@ -55,6 +55,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Testing.cs" />
+    <Compile Include="WeaponModifiers.cs" />
+    <Compile Include="Weapons.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

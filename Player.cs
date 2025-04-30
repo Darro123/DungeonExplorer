@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Security.Cryptography.X509Certificates;
 
 namespace DungeonExplorer
@@ -20,35 +21,39 @@ namespace DungeonExplorer
         {
             Name = name;
             Health = health;
-
-            combat = new Combat();
         }
 
-        public override void Attack()
+        //servers as the player attack script ovverided from the creature class
+        public override void Attack(string currentWeapon = null)
         {
+            //sets the player attack dice as the equivelent as a 10 sided dice
             DamageDealt = randomD10.Next(1, 11);
-            
-            int monsterHealthRemaining = combat.DamageMonster(DamageDealt);
 
-            if (attacked == false)
+            //access the percentage increase from the item subclass and creating a number that is the percentage amount of the damage dealt increasing it by its set value
+            int modifiedDamageDealt = (DamageDealt * Items.GetDamageModifier(currentWeapon) / 100);
+            //adds both damage dealt and the damage added by the weapon mod
+            int totalDamageDealt = DamageDealt + modifiedDamageDealt;
+
+            //calls and sets the monster health 
+            int monsterHealthRemaining = Combat.DamageMonster(totalDamageDealt);
+
+            //main dialouge for the combat, prints the eqquiped weapon, total dmaage dealt, damage added by the mod and the remain enemy health
+            Console.WriteLine($"\nWeapon Equipped = {Inventory.equipedItem}");
+            Console.WriteLine($"You dealt {totalDamageDealt} Damage!"); 
+            Console.WriteLine($"With you modified weapon you deal an extra {modifiedDamageDealt}");
+            Console.WriteLine($"The Enemy has {monsterHealthRemaining} health left!");
+
+            //checks at the end of each player attack if the monster health is 0 or below, it then wires them back into the player input option in game
+            if (monsterHealthRemaining <= 0)
             {
-
                 Program.ClearConsole();
-                Console.WriteLine($"You dealt {DamageDealt} Damage!"); // returns random integers >= 1 and < 10
-                Console.WriteLine($"The Enemy has {monsterHealthRemaining} health left!");
-                attacked = true;
+                Console.WriteLine($"You've Won! The Monster had {monsterHealthRemaining} Remaining.\n");
+                Game.PlayerInput();
             }
-
-            else if (attacked == true)
-            {
-
-                Console.WriteLine($"You dealt {DamageDealt} Damage!");
-                Console.WriteLine(monsterHealthRemaining);
-            }
-
 
         }
 
+        //ges the player name and detects if there is any white space or the name is empty if it is, it asks the user to input a new user name and returns the created name
         public static string GetPlayerName()
         {
             Console.WriteLine("");
@@ -68,10 +73,6 @@ namespace DungeonExplorer
 
         }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 
    

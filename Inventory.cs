@@ -23,7 +23,9 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"You have equipped {inputInv}");
                 //Console.WriteLine(ItemDes);
-                string equipedItem = inputInv;
+                //string equipedItem = inputInv;
+
+                equipedItem = inputInv;
             }
 
    
@@ -36,7 +38,7 @@ namespace DungeonExplorer
         }
 
 
-        public void PickUpItem(string item)
+        public static void PickUpItem(string item)
         {
             inventory.Add(item);
         }

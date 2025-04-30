@@ -13,11 +13,14 @@ namespace DungeonExplorer
 
         public Player currentPlayer;
         public Testing TestingClass; 
-        public Game game;
+        public static Game game;
         public Monster monster;
 
-        public int currentMonsterHealth = 0;
+        public static int currentMonsterHealth = 1;
         public int monsterHealthRemaining = 0;
+        public static int currentPlayerHealth = 1;
+        public int currentPlayerHealthRemaining = 0;
+
 
         public Combat() 
         {
@@ -29,17 +32,26 @@ namespace DungeonExplorer
             currentMonsterHealth = monsterHealth;
 
             // Establishes the Combat instance of the player if the user is activley testing or uses the Game.player instance if the user is activley playing the game.
-            if (Testing._testing == true)
-            {
-                currentPlayer = Testing.testingPlayer;
-                CombatLinearInput();
-            }
-            else if (Testing._testing == false) 
-            { 
-                currentPlayer = Game.player;
-                CombatLinearInput();          
-            }
             
+        }
+
+        public void StartCombat(Player player)
+        {
+            //if (Testing._testing == true)
+            //{
+            //    currentPlayer = Testing.testingPlayer;
+            //    CombatLinearInput();
+            //}
+            //else if (Testing._testing == false)
+            //{
+            //    currentPlayer = Game.player;
+            //    CombatLinearInput();
+            //}
+
+            currentPlayer = player;
+            currentPlayerHealth = Player.Health;
+            CombatLinearInput();
+
         }
 
         public void CombatLinearInput()
@@ -63,30 +75,70 @@ namespace DungeonExplorer
         }
 
 
-        //The primary combat function, allows the player to attack and check their equipped weapon 
+        //The primary combat function, allows the player to attack and equip a weapon and add a modifier  
         public void PlayerCombatLoop()
         {
             var CombatInputKey = Console.ReadKey().Key;
 
-            //if (Player.Health >= 0) 
-            //{
-            //    Console.WriteLine("Your health has reached 0! Your journey unfortunatly ends here...");          
-            //}
 
-            //if (Monster.Health >= 0) 
-            //{
-            //    Console.WriteLine("Your foe has been defeated!");
-            //    game.PlayerInput();
-            //}
+            var C_inputInv = Inventory.equipedItem;
 
             if (CombatInputKey == ConsoleKey.E)
             {
-                var C_inputInv = Inventory.equipedItem;
-                Console.WriteLine($"You have equiped {C_inputInv}");
+                
+                if (Testing._testing == true)
+                {
+                    Program.ClearConsole();
+
+                    //prints all avaible modifers and weapons and includes error checking for invalid inputs
+                    Console.WriteLine("Weapons and Modifiers available:");
+
+                    List<string> itemNames = new List<string>();
+
+                    for (int i = 0; i < Items.Allitems.Count; i++)
+                    {
+                        itemNames.Add(Items.Allitems[i][0]);
+                    }
+
+                    Console.WriteLine(string.Join(", ", itemNames));
+                    Console.WriteLine("\nType the name of the item to equip...\n");
+
+                    void equip(bool incorrect = false)
+                    {
+                        if (incorrect)
+                        {
+                            Console.WriteLine("\nIncorrect input. Try again.\n");
+                        }
+
+                        var playerInput = Console.ReadLine();
+
+                        //checks if the player input is a valid input then adds it to the Testing players inventory and allows them to attack
+                        if (playerInput != null && !(Inventory.inventory.Contains(playerInput)))
+                        {
+                            Inventory.AddToIventory(playerInput);
+
+                            Console.WriteLine("\nItem has been added to inventory and equipped.\n\n(A) to attack\n");
+
+                            Inventory.equipedItem = playerInput;
+
+                            PlayerCombatLoop();
+                        }
+                        else
+                        {
+                            equip(true);
+                        }
+                    }
+                    
+                    equip();
+                }
             }
-            else if (CombatInputKey == ConsoleKey.A) 
+            else if (CombatInputKey == ConsoleKey.A)
             {
-                currentPlayer.Attack();
+                //a very basic turn by turn player combat system. Opens with a player attack and weapon parameter then after a player input calls the monsters turn till one or the other is dead
+                currentPlayer.Attack(C_inputInv);
+                Console.WriteLine("\nNext turn\n\nPress any key");
+                Console.ReadKey();
+                Program.ClearConsole();
                 monster.Attack();
                 PlayerCombatLoop();
             }
@@ -95,16 +147,25 @@ namespace DungeonExplorer
                 Console.WriteLine("Invalid input, Try Again!");
                 PlayerCombatLoop();
             }
+
+
         }
 
-        public int DamageMonster(int damage) 
+        //sets the monster health to be used in the attack scripts
+        public static int DamageMonster(int damage) 
         {
             currentMonsterHealth -= damage;
 
             return currentMonsterHealth;
         }
 
+        //sets the player health to be used in the attack scripts
+        public static int DamagePlayer(int Monsterdamage) 
+        {
+            currentPlayerHealth -= Monsterdamage;
 
+            return currentPlayerHealth;  
+        }
 
 
 

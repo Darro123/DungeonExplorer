@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace DungeonExplorer
 {
@@ -7,37 +8,41 @@ namespace DungeonExplorer
     {
         public static int currentRoom = -1;
         public static Game game;
-            
 
-        private readonly string _room1Description = "You enter a room dark and slightly damp. Cool air rushes in from behind you pushing life and energy into this otherwise desolet hole. 1 other entrance spans off into the dark and in the center is a small collection of scrap left here you assume when the mine was left to rot";
-        private readonly string _room2Description = "Decending furthering down into the hole, the mine tunnel abruptly breaks into mossy and cracked stone brick moisture thickens the air of this now dungeon and you find yourself in a room mostly empty weapon racks line the walls and a center table dotted with small trinkets. Across from you a rotted wooden door sits quietley";
-        private readonly string _room3Description = "With the wooden door creeping open, a large round room with a few dozen skeletons lay lifelessly across the stone floorwith small trinkets littering them. A large arch way rests open on the otherside";
-        private readonly string _room4Description = "You progress through the arch way and the dugneon opens up into a collection of stone towers in a large cavern. It is clear to you now that your adventure is just beginning...";
-
-        public static List<string> room1Items = new List<string> {"dagger"};
+        // the list of items stored in each room
+        public static List<string> room1Items = new List<string> { "dagger" };
         public static List<string> room2Items = new List<string> { "sword", "20 copper coins" };
         public static List<string> room3Items = new List<string> { "shield", "30 gold coins" };
 
-        public List<string> RoomDescriptions = new List<string>();
-        public List<List<string>> RoomItems = new List<List<string>>();
+        public static List<string> RoomDescriptions = new List<string>();
+        public static List<List<string>> RoomItems = new List<List<string>>();
 
         public Room()
         {
-            RoomDescriptions.Add(_room1Description);
-            RoomDescriptions.Add(_room2Description);
-            RoomDescriptions.Add(_room3Description);
-            RoomDescriptions.Add(_room4Description);
+            //adds the actual traverable area into an accessible list 
+            RoomDescriptions.Add(Gamemap._room1Description);
+            RoomDescriptions.Add(Gamemap._room2Description);
+            RoomDescriptions.Add(Gamemap._room3Description);
+            RoomDescriptions.Add(Gamemap._room4Description);
 
             RoomItems.Add(room1Items);
             RoomItems.Add(room2Items);
             RoomItems.Add(room3Items);
         }
 
-        public string GetDescription()
+        public static string GetDescription()
         {
             currentRoom++;
-            string roomDescription = RoomDescriptions[currentRoom];
+            string roomDescription = "";
 
+            try
+            {
+                roomDescription = RoomDescriptions[currentRoom];
+            }
+            catch
+            {
+                Debug.WriteLine("Room description not found.");
+            }
 
             //Console.WriteLine(roomItems);
             Console.WriteLine(roomDescription);
@@ -45,29 +50,9 @@ namespace DungeonExplorer
             return roomDescription;
 
 
-            //if (currentRoom <= 4)
-            //{
-            //    Program.ClearConsole();
-            //    Console.WriteLine("This is were the program ends, for now...");
-            //    game.EndProgram();
-            //    return "";
-            //}
-            //else if(currentRoom >= 4)
-            //{
-            //    currentRoom++;
-            //    string roomDescription = RoomDescriptions[currentRoom];
-            //    game.PlayerInput();
-
-
-            //    //Console.WriteLine(roomItems);
-            //    Console.WriteLine(roomDescription);
-
-            //    return roomDescription;
-            //}
-
         }
 
-        public List<string> GetItems()
+        public static List<string> GetItems()
         {
             List<string> roomItems = RoomItems[currentRoom];
             return roomItems;

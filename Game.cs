@@ -7,9 +7,9 @@ namespace DungeonExplorer
     class Game
     {
         public static Player player;
-        public Room room = new Room();
-        private Inventory inventory = new Inventory();
-        private Combat combat;
+        public static Room room = new Room();
+        private static Inventory inventory = new Inventory();
+        private static Combat combat;
         // bool playing = false;
 
         public Game()
@@ -41,7 +41,7 @@ namespace DungeonExplorer
 
             void MoveToNextRoom()
             {
-                string roomDescription = room.GetDescription();
+                string roomDescription = Room.GetDescription();
                 PlayerInput();
             }
         }
@@ -49,7 +49,7 @@ namespace DungeonExplorer
             
 
 
-            public void PlayerInput()
+            public static void PlayerInput()
             {
                 Console.WriteLine("What do you wish to do?.");
                 Console.WriteLine(Player.Health + " health points.");
@@ -64,7 +64,7 @@ namespace DungeonExplorer
                 if (playerKey == ConsoleKey.C)
                 {
                     // Check the room for items
-                    List<string> roomItems = room.GetItems();
+                    List<string> roomItems = Room.GetItems();
 
                     Console.WriteLine(string.Join(", ", roomItems));
                     Console.WriteLine("Input the item you wish to interact with...");
@@ -74,7 +74,7 @@ namespace DungeonExplorer
                     if (roomItems.Contains(inputItem.ToLower()))
                     {
                         Console.WriteLine($"You have picked up {inputItem}");
-                        inventory.PickUpItem(inputItem);
+                        Inventory.PickUpItem(inputItem);
                     }
 
                     PlayerInput();
@@ -92,7 +92,7 @@ namespace DungeonExplorer
                 {
                     // Move to the next room
                     Console.WriteLine("You move to the next room");
-                    room.GetDescription();
+                    Room.GetDescription();
                     PlayerInput();
                     //currentRoom = 2;
                 }
@@ -107,7 +107,9 @@ namespace DungeonExplorer
                 }
                 else if (playerKey == ConsoleKey.A) 
                 {
-                    combat = new Combat();
+
+                    Combat combat = new Combat();
+                    combat.StartCombat(player);
                 }
                 else
                 {

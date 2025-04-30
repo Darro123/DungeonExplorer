@@ -8,6 +8,7 @@ namespace DungeonExplorer
 {
     abstract class Creature
     {
-        public abstract void Attack();
+        //creates an overridable fucntion for the monster and player classes to call from
+        public abstract void Attack(string currentWeapon = null);
     }
 }
